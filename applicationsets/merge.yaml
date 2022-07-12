@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: argo-workflow-merge
+  name: argo-workflows-merge
 spec:
   generators:
     - merge:
@@ -11,46 +11,46 @@ spec:
           - clusters:
               selector:
                 matchLabels:
-                  env: dev
+                  environmentId: dev
                 matchExpressions:
                   - key: cluster
                     operator: NotIn
                     values:
                       - vcluster-10
               values:
-                path: argo-workflow/3.2.4
+                path: argo-workflows/3.2.4
           - clusters:
               selector:
                 matchLabels:
                   bu: ip
               values:
-                path: argo-workflow/3.2.0
+                path: argo-workflows/3.2.0
           - list:
               elements:
                 - name: vcluster-15
                   url: ''
                   values:
-                    path: argo-workflow/3.2.6
+                    path: argo-workflows/3.2.6
   template:
     metadata:
-      name: 'argo-workflow-me-{{name}}'
+      name: 'argo-workflows-me-{{name}}'
       labels:
-        appset: argo-workflow-merge
-        env: '{{metadata.labels.env}}'
+        appset: argo-workflows-merge
+        environmentId: '{{metadata.labels.environmentId}}'
       annotations:
         version: '{{values.path}}'
     spec:
-      project: argo-workflow
+      project: argo-workflows
       source:
         helm:
           fileParameters:
             - path: values.yaml
-        repoURL: 'https://github.com/vgunapati-demo/argo-workflow.git'
+        repoURL: 'https://github.com/ron1/ron1-argo-workflows-gitops.git'
         targetRevision: HEAD
         path: '{{values.path}}'
       destination:
         name: '{{name}}'
-        namespace: workflow
+        namespace: argo-workflows
       syncPolicy:
         automated:
           prune: true
