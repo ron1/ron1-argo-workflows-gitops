@@ -1,2 +1,2 @@
 controller:
-  workflowNamespaces: workflow
+  workflowNamespaces: argo
