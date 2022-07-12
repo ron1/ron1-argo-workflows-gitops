@@ -50,7 +50,7 @@ spec:
         path: '{{values.path}}'
       destination:
         name: '{{name}}'
-        namespace: argo-workflows
+        namespace: argo
       syncPolicy:
         automated:
           prune: true
