@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
   annotations:
-    argocd.argoproj.io/sync-wave: "4000"
+    argocd.argoproj.io/sync-wave: "5000"
   name: argo-workflows-merge
 spec:
   generators:
@@ -18,7 +18,7 @@ spec:
                   - key: clusterId
                     operator: NotIn
                     values:
-                      - vcluster-10
+                      - in-cluster-local
               values:
                 path: argo-workflows/3.2.4
           - clusters:
@@ -40,7 +40,7 @@ spec:
         appset: argo-workflows-merge
         environmentId: '{{metadata.labels.environmentId}}'
       annotations:
-        argocd.argoproj.io/sync-wave: "4000"
+        argocd.argoproj.io/sync-wave: "5000"
         version: '{{values.path}}'
     spec:
       project: argo-workflows
